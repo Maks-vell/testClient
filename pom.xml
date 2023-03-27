@@ -71,6 +71,38 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.3.3</version>
+                <executions>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>out/artifacts/${project.artifactId}_jar/testClient.exe</outfile>
+                            <jar>out/artifacts/${project.artifactId}_jar/${project.artifactId}.jar</jar>
+
+                            <dontWrapJar>false</dontWrapJar>
+                            <errTitle>Error in launch4j plugin</errTitle>
+                            <classPath>
+                                <mainClass>com.psu.testclient.Launcher</mainClass>
+                            </classPath>
+                            <jre>
+                                <path>jdk-19</path>
+                                <minVersion>1.5.0</minVersion>
+                                <maxVersion>19.0.2</maxVersion>
+                                <initialHeapSize>512</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
