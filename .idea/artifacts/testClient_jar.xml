@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact build-on-make="true" name="testClient:jar">
+  <artifact name="testClient:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/testClient_jar</output-path>
     <root id="root">
       <element id="archive" name="testClient.jar">
