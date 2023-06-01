@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.psu.testclient.Launcher;
 import com.psu.testclient.client.Client;
-import com.psu.testclient.model.QuestionModel;
 import com.psu.testclient.model.TestModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public class AuthController {
@@ -44,12 +42,11 @@ public class AuthController {
         }
 
         this.getTestButton.setOnAction(this::getTestButtonClick);
-
     }
 
     private void getTestButtonClick(ActionEvent actionEvent) {
         try {
-            getTest();
+            tryGetTest();
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
@@ -59,33 +56,41 @@ public class AuthController {
         }
     }
 
-    void getTest() throws IOException {
+    private void tryGetTest() throws IOException {
         if (nameField.getCharacters().isEmpty()) {
             errorMessage.setText("Заполните поле!");
             errorMessage.setVisible(true);
 
         } else {
-            String testJson = this.client.requestWithResponse("GET/testService/getTest");
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            TestModel testModel = gson.fromJson(testJson, TestModel.class);
-
-            TestController testController = new TestController();
-            testController.setQuestionModels( testModel.questions);
-
-            Stage stage = (Stage) getTestButton.getScene().getWindow();
-            stage.close();
-            FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("test-view.fxml"));
-            fxmlLoader.setController(testController);
-            Parent root1 = fxmlLoader.load();
-            stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Test");
-            stage.setScene(new Scene(root1));
-            stage.show();
+            TestModel testModel = getTestModel();
+            viewTestWindow(testModel);
         }
+    }
+
+    private void viewTestWindow(TestModel testModel) throws IOException {
+        TestController testController = new TestController();
+        testController.setQuestionModels( testModel.questions);
+        testController.setClient(this.client);
+
+        Stage stage = (Stage) getTestButton.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("test-view.fxml"));
+        fxmlLoader.setController(testController);
+        Parent root1 = fxmlLoader.load();
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.setTitle("Test");
+        stage.setScene(new Scene(root1));
+        stage.show();
+    }
+
+    private TestModel getTestModel() throws IOException {
+        String testJson = this.client.requestWithResponse(String.format("GET/testService/getTest/%s", this.nameField.getText()));
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+
+        return gson.fromJson(testJson, TestModel.class);
     }
 }

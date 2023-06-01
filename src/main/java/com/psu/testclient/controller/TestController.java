@@ -20,6 +20,8 @@ import java.util.List;
 public class TestController {
     @Setter
     private List<QuestionModel> questionModels;
+    @Setter
+    private Client client;
 
     private QuestionModel currentQuestionModel;
 
@@ -46,7 +48,6 @@ public class TestController {
         nextButton.setOnAction(this::nextButtonClick);
         prevButton.setOnAction(this::prevButtonClick);
 
-        this.questionModels.add(new QuestionModel("Вы закончили тест, нажмите далее чтобы выйти", "", this.questionModels.size()));
         this.currentQuestionModel = questionModels.get(0);
         currentQuestion = 0;
         questionUpdate();
@@ -65,6 +66,7 @@ public class TestController {
         currentQuestion++;
         if (currentQuestion >= this.questionModels.size()) {
             try {
+                client.request("GET/testService/cancelTest");
                 viewWindowAuth();
                 return;
             } catch (Exception ex) {
