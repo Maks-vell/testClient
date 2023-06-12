@@ -58,9 +58,11 @@ public class TestController {
         TestModel testModel = getTestModel();
         this.questionModels = testModel.questions;
 
-        if (!testModel.isWithAnswers) {
+        if (testModel.isWithAnswers) {
             this.viewAnswerButton.setVisible(true);
             this.viewAnswerButton.setOnAction(this::viewAnswerButtonClick);
+        } else {
+            this.viewAnswerButton.setVisible(false);
         }
 
         this.currentQuestionModel = questionModels.get(0);
@@ -96,6 +98,10 @@ public class TestController {
     }
 
     private void viewAnswerButtonClick(ActionEvent actionEvent) {
+        if (this.currentQuestion == this.questionModels.size()) {
+            return;
+        }
+
         this.answerField.setText(this.currentQuestionModel.answer);
     }
 

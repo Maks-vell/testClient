@@ -33,6 +33,9 @@
                <font>
                   <Font name="Impact" size="25.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <AnchorPane layoutX="141.0" layoutY="36.0" maxHeight="220.0" maxWidth="719.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="719.0" snapToPixel="false" style="-fx-max-height: 200; -fx-max-width: 555;" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="36.0">
                <children>
