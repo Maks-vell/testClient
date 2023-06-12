@@ -1,10 +1,6 @@
 package com.psu.testclient.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.psu.testclient.Launcher;
-import com.psu.testclient.client.Client;
-import com.psu.testclient.model.TestModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,12 +11,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 
 public class AuthController {
-
+    private static final Logger log = Logger.getLogger(AuthController.class);
     @FXML
     private Button getTestButton;
 
@@ -30,26 +27,16 @@ public class AuthController {
     @FXML
     private Text errorMessage;
 
-    private Client client;
-
     @FXML
     void initialize() {
-        this.client = new Client();
-        try{
-            client.initConnection("127.0.0.1", 3384);
-        } catch (IOException ex){
-            System.out.println(ex.getMessage());
-        }
-
         this.getTestButton.setOnAction(this::getTestButtonClick);
     }
 
     private void getTestButtonClick(ActionEvent actionEvent) {
         try {
             tryGetTest();
-        }
-        catch(IOException ex){
-            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            log.error(ex.getMessage());
 
             errorMessage.setText("Внутренняя ошибка");
             errorMessage.setVisible(true);
@@ -60,17 +47,15 @@ public class AuthController {
         if (nameField.getCharacters().isEmpty()) {
             errorMessage.setText("Заполните поле!");
             errorMessage.setVisible(true);
-
-        } else {
-            TestModel testModel = getTestModel();
-            viewTestWindow(testModel);
+            return;
         }
+
+        viewTestWindow(this.nameField.getText());
     }
 
-    private void viewTestWindow(TestModel testModel) throws IOException {
+    private void viewTestWindow(String name) throws IOException {
         TestController testController = new TestController();
-        testController.setQuestionModels( testModel.questions);
-        testController.setClient(this.client);
+        testController.setStudentName(name);
 
         Stage stage = (Stage) getTestButton.getScene().getWindow();
         stage.close();
@@ -83,14 +68,5 @@ public class AuthController {
         stage.setTitle("Test");
         stage.setScene(new Scene(root1));
         stage.show();
-    }
-
-    private TestModel getTestModel() throws IOException {
-        String testJson = this.client.requestWithResponse(String.format("GET/testService/getTest/%s", this.nameField.getText()));
-
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-
-        return gson.fromJson(testJson, TestModel.class);
     }
 }

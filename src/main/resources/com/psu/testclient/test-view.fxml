@@ -29,14 +29,14 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="viewAnswerButton" layoutX="384.0" layoutY="459.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="232.0" style="-fx-background-color: #2E3348;" text="Показать ответ" textFill="WHITE" visible="false">
+            <Button fx:id="viewAnswerButton" layoutX="384.0" layoutY="459.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="232.0" style="-fx-background-color: #2E3348;" text="Показать ответ" textFill="WHITE">
                <font>
                   <Font name="Impact" size="25.0" />
                </font>
             </Button>
             <AnchorPane layoutX="141.0" layoutY="36.0" maxHeight="220.0" maxWidth="719.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="719.0" snapToPixel="false" style="-fx-max-height: 200; -fx-max-width: 555;" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="36.0">
                <children>
-                  <Text fx:id="questionField" boundsType="VISUAL" layoutX="12.0" layoutY="109.0" strokeLineCap="BUTT" strokeWidth="0.0" text="Вопрос" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="692.559814453125">
+                  <Text fx:id="questionField" boundsType="VISUAL" layoutX="12.0" layoutY="110.0" strokeLineCap="BUTT" strokeWidth="0.0" text="Вопрос" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="692.559814453125">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -51,6 +51,15 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <AnchorPane layoutX="141.0" layoutY="307.0" maxHeight="220.0" maxWidth="719.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="719.0" snapToPixel="false" style="-fx-max-height: 200; -fx-max-width: 555;">
+               <children>
+                  <Text fx:id="answerField" boundsType="VISUAL" layoutX="12.0" layoutY="66.0" strokeLineCap="BUTT" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="692.559814453125">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

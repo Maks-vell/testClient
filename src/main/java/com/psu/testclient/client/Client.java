@@ -1,10 +1,12 @@
 package com.psu.testclient.client;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.net.Socket;
-import java.util.Objects;
 
 public class Client {
+    private static final Logger log = Logger.getLogger(Client.class);
     private Socket socket;
     private BufferedReader inputStream;
     private BufferedWriter outputStream;
@@ -14,7 +16,7 @@ public class Client {
 
     public void initConnection(String address, int port) throws IOException {
         this.socket = new Socket(address, port);
-        System.out.println("Connected to server");
+        log.info("Connected to server");
 
         this.inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.outputStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -26,7 +28,7 @@ public class Client {
             this.outputStream.newLine();
             this.outputStream.flush();
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            log.error(ex.getMessage());
         }
     }
 
@@ -36,7 +38,7 @@ public class Client {
             this.outputStream.newLine();
             this.outputStream.flush();
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            log.error(ex.getMessage());
         }
 
         return getResponse();
